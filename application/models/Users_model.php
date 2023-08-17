@@ -1,7 +1,7 @@
 <?php
     class Users_model extends CI_Model{
 
-        public function all_dataUsers($token){
+        public function all_dataUsers($token){##Filtro
             $curl = curl_init();
             curl_setopt_array($curl, array(
                 CURLOPT_URL => 'https://www.zohoapis.com/crm/v2/users?type=ActiveUsers',
