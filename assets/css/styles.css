@@ -1,0 +1,16 @@
+:root{
+    --verde: #6C3483;
+}
+
+.bg-vocom{
+    background: var(--verde);
+}
+
+
+.header{
+    width: 100%;
+    height: 100vh;
+    background-image: url('../images/header.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
