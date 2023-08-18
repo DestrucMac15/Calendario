@@ -20,9 +20,18 @@
                 </div>
             </form>
         </div>
-        <div class="col-md-4 d-flex justify-content-end">
+        <div class="col-md-4 text-right">
             <button class="btn btn-secondary mx-2">Exportar</button>
             <button class="btn btn-success mx-2">Asociar</button>
+        </div>
+    </div>
+    <div class="row my-2">
+        <div class="col-md-12">
+            <?php 
+                $fecha = new DateTime();
+                $fecha->modify('last day of this month');
+                echo $fecha->format('d');
+            ?>
         </div>
     </div>
 </div>
