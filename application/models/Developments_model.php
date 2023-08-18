@@ -13,7 +13,7 @@
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'GET',
                 CURLOPT_HTTPHEADER => array(
-                    'Authorization: Zoho-oauthtoken 1000.7e202a3c8fa6fb86375bffa608c3fc80.cf48645b695f7cbbe23765ade6c57645'
+                    'Authorization: Zoho-oauthtoken '.$token
                 ),
             ));
             $response = curl_exec($curl);

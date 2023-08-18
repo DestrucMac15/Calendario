@@ -6,11 +6,17 @@
                     <div class="col ">
                         <select class="form-control">
                             <option value="">Selecciona un Vendedor</option>
+                            <?php foreach($usuarios as $usuario){ ?>
+                                <option value="<?= $usuario['id']; ?>"><?= $usuario['full_name']; ?></option>
+                            <?php } ?>
                         </select>
                     </div>
                     <div class="col ">
                         <select class="form-control">
                             <option value="">Selecciona un Desarrollo</option>
+                            <?php foreach($desarrollos as $desarrollo){ ?>
+                                <option value="<?= $desarrollo['id']; ?>"><?= $desarrollo['Name']; ?></option>
+                            <?php } ?>
                         </select>
                     </div>
                     <div class="col">
@@ -28,10 +34,30 @@
     <div class="row my-2">
         <div class="col-md-12">
             <?php 
-                $fecha = new DateTime();
-                $fecha->modify('last day of this month');
+                /*$fecha = new DateTime();
+                $fecha->modify('first day of this month');
                 echo $fecha->format('d');
+                var_dump(setDate()->isoFormat('LLLL'));*/
             ?>
+            <h2 class="text-center"><?= strtoupper(setDate()->monthName); ?></h2>
+             <table class="table table-striped ">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <?php foreach($desarrollos as $desarrollo){ ?>
+                            <th><?= $desarrollo['Name']; ?></th>
+                        <?php } ?>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>john@example.com</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
