@@ -6,7 +6,7 @@ class Calendario extends CI_Controller{
 
 		parent::__construct();
 
-		$this->load->helper(array('zoho_refresh/refresh_token','date/date'));
+		$this->load->helper(array('zoho_refresh/refresh_token'));
 
 		$this->load->model(array('Developments_model','Users_model'));
 
