@@ -8,23 +8,27 @@ class Calendario extends CI_Controller{
 
 		$this->load->helper(array('zoho_refresh/refresh_token'));
 
-		$this->load->model(array('Developments_model'));
+		$this->load->model(array('Developments_model','Users_model'));
 
+		
 
 	}
 
 	public function index(){
-		
+
 		$this->template->title = 'Calendario';
 
 		$token = comprobarToken();
 
 		$desarrollos = $this->Developments_model->all_dataDevelopment($token);
+		$usuarios = $this->Users_model->all_dataUsers($token);
 		
-		var_dump($desarrollos);
+		$data = array(
+			'desarrollos' => $desarrollos['data'],
+			'usuarios' => $usuarios['users']
+		);
 
-
-		$this->template->content->view('app/calendario');
+		$this->template->content->view('app/calendario', $data);
 
         $this->template->publish();
 
