@@ -1,10 +1,10 @@
 <?php
-    class Contacts_model extends CI_Model{
+    class Calendar_model extends CI_Model{
 
-        public function get_allContacts($token){
+        public function get_allCalendar($token){
             $curl = curl_init();
             curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://www.zohoapis.com/crm/v2/Contacts',
+                CURLOPT_URL => 'https://www.zohoapis.com/crm/v2/Calendario',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -19,5 +19,13 @@
             $response = curl_exec($curl);
             curl_close($curl);
             return json_decode($response,true);
+        }
+
+        public function create_calendar(){
+
+        }
+
+        public function upd_calendar(){
+
         }
     }
