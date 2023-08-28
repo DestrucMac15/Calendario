@@ -1,7 +1,9 @@
 <?php
     class Calendar_model extends CI_Model{
 
-        public function get_allCalendar($token,$start_date,$final_date){
+        public function get_allCalendar($token,$start_date,$end_date){
+            $start_date = "\'".$start_date."\'";
+            $end_date = "\'".$end_date."\'";
             $curl = curl_init();
             curl_setopt_array($curl, array(
               CURLOPT_URL => 'https://www.zohoapis.com/crm/v2/coql',
@@ -12,7 +14,7 @@
               CURLOPT_FOLLOWLOCATION => true,
               CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
               CURLOPT_CUSTOMREQUEST => 'POST',
-              CURLOPT_POSTFIELDS =>'{"select_query":"select Fecha,Descripcion,id,Vendedores,Desarrollos,Tipo from Calendario where Fecha between \'2023-08-01\' and \'2023-08-31\' order by Fecha asc"}',
+              CURLOPT_POSTFIELDS =>'{"select_query":"select Fecha,Descripcion,id,Vendedores,Desarrollos,Tipo from Calendario where Fecha between '.$start_date.' and '.$end_date.' order by Fecha asc"}',
               CURLOPT_HTTPHEADER => array(
                 'Authorization: Zoho-oauthtoken '.$token,
                 'Content-Type: application/json'
