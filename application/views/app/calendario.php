@@ -62,6 +62,7 @@
                                     <?= $inicio->day; ?><br>
                                     <span class="small weight-normal"><?= $inicio->locale('es_MX')->monthName; ?></span>
                                 </td>
+                                <!-- getVendedorDay('desarrollo','fecha') -->
                                 <td>John</td>
                                 <td>Doe</td>
                                 <td>john@example.com</td>
