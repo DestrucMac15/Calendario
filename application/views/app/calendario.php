@@ -1,9 +1,3 @@
-<?php
-    use Carbon\Carbon; 
-
-    $final = new Carbon($_GET['final']);
-    $inicio = new Carbon($_GET['inicio']);
- ?>
 <div class="container-fluid my-5">
     <div class="row my-2">
         <div class="col-md-8">
