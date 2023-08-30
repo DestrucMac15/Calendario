@@ -20,7 +20,7 @@
                         </select>
                     </div>
                     <div class="col">
-                        <input type="text" name="daterange" class="form-control" value="" />
+                        <input type="text" name="daterange" class="form-control" value="<?= $inicio->format('Y/m/d'); ?> - <?= $final->format('Y/m/d'); ?>" />
                     </div>
                     <button type="submit" class="btn btn-success">Filtrar</button>
                 </div>
@@ -36,6 +36,10 @@
             <h2 class="text-center my-5">
                 <?= $inicio->locale('es_MX')->isoFormat('LL').' a '.$final->locale('es_MX')->isoFormat('LL'); ?>
             </h2>
+            <?php 
+                var_dump($calendario); 
+                
+            ?>
              <table class="table table-striped ">
                 <thead>
                     <tr>
@@ -54,11 +58,14 @@
                             <tr>
                                 <td class="text-center font-weight-bold">
                                     <?= $inicio->day; ?><br>
-                                    <span class="small weight-normal"><?= $inicio->locale('es_MX')->monthName; ?></span>
+                                    <span class="small weight-normal"><?= $inicio->locale('es_MX')->englishDayOfWeek; ?></span>
                                 </td>
-                                <td>John</td>
-                                <td>Doe</td>
-                                <td>john@example.com</td>
+                                <?php foreach($desarrollos as $desarrollo){ ?>
+                                    <th>
+                                        <?= $desarrollo['id']; ?><br>
+                                        <span class="small weight-normal"><?= $inicio->toDateString(); ?></span>
+                                    </th>
+                                <?php } ?>
                             </tr>
                     <?php 
                         }   
