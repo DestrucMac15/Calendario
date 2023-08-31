@@ -37,7 +37,7 @@
                 <?= $inicio->locale('es_MX')->isoFormat('LL').' a '.$final->locale('es_MX')->isoFormat('LL'); ?>
             </h2>
             <?php 
-                var_dump($calendario); 
+                var_dump($calendario['data']); 
                 
             ?>
              <table class="table table-striped ">
@@ -62,8 +62,19 @@
                                 </td>
                                 <?php foreach($desarrollos as $desarrollo){ ?>
                                     <th>
-                                        <?= $desarrollo['id']; ?><br>
-                                        <span class="small weight-normal"><?= $inicio->toDateString(); ?></span>
+                                        <?php
+                                            foreach($calendario['data'] as $valor){
+
+                                                if($valor['Desarrollos.id'] === $desarrollo['id'] && ){
+                                                    echo 'es';
+                                                }else{
+                                                    echo 'no es';
+                                                }
+
+                                                echo $inicio->dateToString();
+
+                                            }
+                                        ?>
                                     </th>
                                 <?php } ?>
                             </tr>

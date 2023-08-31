@@ -1,7 +1,7 @@
 <?php 
 
-function Saludar(){
+function Seller($desarrollo, $fecha){
 
-echo 'Hola';
+return $desarrollo;
 
 }
