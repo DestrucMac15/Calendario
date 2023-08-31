@@ -14,7 +14,7 @@
               CURLOPT_FOLLOWLOCATION => true,
               CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
               CURLOPT_CUSTOMREQUEST => 'POST',
-              CURLOPT_POSTFIELDS =>'{"select_query":"select Fecha,Descripcion,id,Vendedores,Desarrollos,Tipo from Calendario where Fecha between '.$start_date.' and '.$end_date.' order by Fecha asc"}',
+              CURLOPT_POSTFIELDS =>'{"select_query":"select Fecha,Descripcion,id,Vendedores,Vendedores.first_name,Vendedores.last_name as vend,Desarrollos.Name,Tipo from Calendario where Fecha between '.$start_date.' and '.$end_date.' order by Fecha asc"}',
               CURLOPT_HTTPHEADER => array(
                 'Authorization: Zoho-oauthtoken '.$token,
                 'Content-Type: application/json'
