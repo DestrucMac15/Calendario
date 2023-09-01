@@ -53,5 +53,29 @@ class Calendario extends CI_Controller{
 
 	}
 
+	public function save(){
+
+		$data = array(
+			'fecha' => $this->input->post('fecha'),
+			'desarrollo' => $this->input->post('desarrollo'),
+			'vendedor' => $this->input->post('vendedor'),
+			'tipo' => $this->input->post('tipo'),
+			'observaciones' => $this->input->post('observaciones')
+		);
+
+		if(empty($this->input->post('id'))){
+
+			//Código de Editar
+			$data['id'] = $this->input->post('id');
+
+		}else{
+			
+			//Código de insertar
+
+		}
+
+
+	}
+
 
 }

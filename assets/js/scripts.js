@@ -35,8 +35,38 @@ $(document).ready(function(){
         $('#desarrollo').val($(this).data('desarrollo'));
         $('#fecha').val($(this).data('fecha'));
         $('#vendedor').val($(this).data('vendedor'));
+        $('#tipo').val($(this).data('tipo'));
+        $('#observaciones').val($(this).data('observaciones'));
 
         $('#modalAgregar').modal('show');
+
+    });
+
+    $('#formCalendario').submit(function(event){
+
+        event.preventDefault();
+
+        let data = $(this).serialize();
+
+        $.ajax({
+            url: ruta+'calendario/save',
+            method: 'POST',
+            dataType: 'JSON',
+            data: data
+        }).done(function(respuesta){
+
+            if(respuesta.estatus){
+
+            }else{
+
+                iziToast.error({
+                    title: 'Atención!',
+                    message: 'Error al guardar.',
+                });
+
+            }
+
+        });
 
     });
 
