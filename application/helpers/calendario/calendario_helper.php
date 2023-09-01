@@ -1,7 +1,15 @@
 <?php 
 
-function Seller($desarrollo, $fecha){
+function buscarValorEnArrayMultidimensional($array, $desarrollo, $fecha) {
 
-return $desarrollo;
+    foreach($array['data'] as $clave => $valor){
+
+        if($valor['Desarrollos.id'] === $desarrollo && $valor['Fecha'] === $fecha){
+
+            return $clave;
+
+        }
+
+    }
 
 }

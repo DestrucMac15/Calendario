@@ -1,9 +1,20 @@
 <?php
     class Calendar_model extends CI_Model{
 
-        public function get_allCalendar($token,$start_date,$end_date,$id_desarrollo='',$id_vededor=''){
+        public function get_allCalendar($token,$start_date,$end_date,$desarrollo_id='',$vendedor_id=''){
             $start_date = "\'".$start_date."\'";
             $end_date = "\'".$end_date."\'";
+            
+            if($desarrollo_id != Null && $vendedor_id != Null){
+              $filtro = "(Fecha between $start_date and $end_date) and (Desarrollos.id = $desarrollo_id and Vendedores = $vendedor_id)";
+            }else if($desarrollo_id != Null){
+              $filtro = "Fecha between $start_date and $end_date and Desarrollos.id = $desarrollo_id";
+            }else if($vendedor_id != Null){
+              $filtro = "Fecha between $start_date and $end_date and Vendedores = $vendedor_id";
+            }else{
+              $filtro = "Fecha between $start_date and $end_date";
+            }
+
             $curl = curl_init();
             curl_setopt_array($curl, array(
               CURLOPT_URL => 'https://www.zohoapis.com/crm/v2/coql',
@@ -14,7 +25,7 @@
               CURLOPT_FOLLOWLOCATION => true,
               CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
               CURLOPT_CUSTOMREQUEST => 'POST',
-              CURLOPT_POSTFIELDS =>'{"select_query":"select Fecha,Descripcion,id,Vendedores,Vendedores.first_name,Vendedores.last_name as vend,Desarrollos.Name,Desarrollos.id,Tipo from Calendario where (((Fecha between '.$start_date.' and '.$end_date.') and Desarrollos.id = '.$id_desarrollo.') and Vendedores = '.$id_vededor.') order by Fecha asc"}',
+              CURLOPT_POSTFIELDS =>'{"select_query":"select Fecha,Descripcion,id,Vendedores,Vendedores.first_name,Vendedores.last_name as vend,Desarrollos.Name,Desarrollos.id,Tipo from Calendario where '.$filtro.' order by Fecha asc"}',
               CURLOPT_HTTPHEADER => array(
                 'Authorization: Zoho-oauthtoken '.$token,
                 'Content-Type: application/json'

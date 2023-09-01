@@ -47,13 +47,6 @@
                 </thead>
                 <tbody>
                     <?php 
-                        function buscarValorEnArrayMultidimensional($array, $desarrollo, $fecha) {
-                            foreach($array['data'] as $clave => $valor){
-                                if($valor['Desarrollos.id'] === $desarrollo && $valor['Fecha'] === $fecha){
-                                    return $clave;
-                                }
-                            }
-                        }
                         $inicio->subDay();
                         while($inicio->equalTo($final) == false){
                             $inicio->addDay();
@@ -81,7 +74,7 @@
                                                     <br>
                                                     <span class="small"><?= $calendario['data'][$respuesta]['Tipo']; ?></span>
                                                     <br>
-                                                    [<a href="" class="small btnEditar" data-desarrollo="<?= $desarrollo['id']; ?>" data-fecha="<?= $fecha; ?>" data-vendedor="<?= $calendario['data'][$respuesta]['Vendedores']['id']; ?>" data-id="<?= $calendario['data'][$respuesta]['id']; ?>">Editar</a>]
+                                                    [<a href="" class="small btnEditar" data-desarrollo="<?= $desarrollo['id']; ?>" data-fecha="<?= $fecha; ?>" data-vendedor="<?= $calendario['data'][$respuesta]['Vendedores']['id']; ?>" data-id="<?= $calendario['data'][$respuesta]['id']; ?>" data-tipo="<?= $calendario['data'][$respuesta]['Tipo']; ?>" data-observaciones="<?= $calendario['data'][$respuesta]['Descripcion']; ?>">Editar</a>]
                                         <?php
                                                 }
 
@@ -103,66 +96,4 @@
     </div>
 </div>
 
-
-<form id="formCalendario">
-    <!-- The Modal -->
-    <div class="modal" id="modalAgregar">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Asociar</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="">Id</label>
-                        <input type="text" class="form-control" name="id" id="id">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Fecha</label>
-                        <input type="date" class="form-control" name="fecha" id="fecha">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Desarrollo</label>
-                        <select class="form-control" id="desarrollo" name="desarrollo">
-                            <option value="">Selecciona un Desarrollo</option>
-                            <?php foreach($desarrollos as $desarrollo){ ?>
-                                <option value="<?= $desarrollo['id']; ?>"><?= $desarrollo['Name']; ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="">Vendedor</label>
-                        <select name="vendedor" class="form-control" id="vendedor">
-                            <option value="">Selecciona un Vendedor</option>
-                            <?php foreach($usuarios as $usuario){ ?>
-                                <option value="<?= $usuario['id']; ?>"><?= $usuario['full_name']; ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="">Tipo</label>
-                        <select name="tipo" id="tipo" class="form-control">
-                            <option value="">Presencial</option>
-                            <option value="">Virtual</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="">Observaciones</label>
-                        <textarea class="form-control" id="observaciones" name="observaciones" rows="4"></textarea>
-                    </div>
-                </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success" data-dismiss="modal">Agregar</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</form>
+<?php echo $this->template->widget("formCalendario"); ?>
