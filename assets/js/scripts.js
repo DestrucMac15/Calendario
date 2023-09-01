@@ -6,6 +6,36 @@ $(document).ready(function(){
 
         event.preventDefault();
 
+        $('#formCalendario')[0].reset();
+
+        $('#modalAgregar').modal('show');
+
+    });
+
+    $('.btnAsignar').click(function(event){
+
+        event.preventDefault();
+
+        $('#formCalendario')[0].reset();
+
+        $('#desarrollo').val($(this).data('desarrollo'));
+        $('#fecha').val($(this).data('fecha'));
+
+        $('#modalAgregar').modal('show');
+
+    });
+
+    $('.btnEditar').click(function(event){
+
+        event.preventDefault();
+
+        $('#formCalendario')[0].reset();
+
+        $('#id').val($(this).data('id'));
+        $('#desarrollo').val($(this).data('desarrollo'));
+        $('#fecha').val($(this).data('fecha'));
+        $('#vendedor').val($(this).data('vendedor'));
+
         $('#modalAgregar').modal('show');
 
     });
