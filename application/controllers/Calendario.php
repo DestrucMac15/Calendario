@@ -25,7 +25,38 @@ class Calendario extends CI_Controller{
 			$final = new Carbon($_GET['final']);
 			$inicio = new Carbon($_GET['inicio']);
 
-		}else{
+			$calendario = $this->Calendar_model->get_allCalendar($token,$inicio->format('Y-m-d'),$final->format('Y-m-d'));
+
+		}
+		if(isset($_GET['final']) && isset($_GET['inicio']) && isset($_GET['desarrollo'])){
+
+			$final = new Carbon($_GET['final']);
+			$inicio = new Carbon($_GET['inicio']);
+			$desarrollo = $_GET['desarrollo'];
+
+			$calendario = $this->Calendar_model->get_allCalendar($token,$inicio->format('Y-m-d'),$final->format('Y-m-d'), $desarrollo);
+
+		}
+		if(isset($_GET['final']) && isset($_GET['inicio']) && isset($_GET['vendedor'])){
+
+			$final = new Carbon($_GET['final']);
+			$inicio = new Carbon($_GET['inicio']);
+			$vendedor = $_GET['vendedor'];
+
+			$calendario = $this->Calendar_model->get_allCalendar($token,$inicio->format('Y-m-d'),$final->format('Y-m-d'), $desarrollo="", $vendedor);
+
+		}
+		if(isset($_GET['final']) && isset($_GET['inicio']) && isset($_GET['vendedor']) && isset($_GET['desarrollo'])){
+
+			$final = new Carbon($_GET['final']);
+			$inicio = new Carbon($_GET['inicio']);
+			$vendedor = $_GET['vendedor'];
+			$desarrollo = $_GET['desarrollo'];
+
+			$calendario = $this->Calendar_model->get_allCalendar($token,$inicio->format('Y-m-d'),$final->format('Y-m-d'), $desarrollo, $vendedor);
+
+		}
+		if(!isset($_GET['final']) && !isset($_GET['inicio']) && !isset($_GET['vendedor']) && !isset($_GET['desarrollo'])){
 
 			$inicioc = Carbon::now()->startOfWeek()->toDateString();
 			$finalc = Carbon::now()->endOfWeek()->toDateString();
@@ -33,11 +64,12 @@ class Calendario extends CI_Controller{
 			$inicio = new Carbon($inicioc);
 			$final = new Carbon($finalc);
 
+			$calendario = $this->Calendar_model->get_allCalendar($token,$inicio->format('Y-m-d'),$final->format('Y-m-d'));
+
 		}
 
 		$desarrollos = $this->Developments_model->all_dataDevelopment($token);
 		$usuarios = $this->Users_model->all_dataUsers($token);
-		$calendario = $this->Calendar_model->get_allCalendar($token,$inicio->format('Y-m-d'),$final->format('Y-m-d'));
 		
 		$data = array(
 			'desarrollos' => $desarrollos['data'],

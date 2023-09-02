@@ -106,11 +106,44 @@ $(document).ready(function(){
         "firstDay": 1
     },
     }, function(start, end, label) {
-        //console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+        
         $(location).attr('href', ruta+'?inicio='+start.format('YYYY-MM-DD')+'&final='+ end.format('YYYY-MM-DD'));
     });
 
-    $('#form_filtro').submit(function(event){
+    $('#formFiltro').submit(function(event){
+
         event.preventDefault();
+
+        let date_range = $('#daterange').val();
+
+        let dates = date_range.split(" - ");
+
+        let inicio = dates[0];
+        let final = dates[1];
+        let desarrollo = $('#filtro_desarrollo').val();
+        let vendedor = $('#filtro_vendedor').val();
+
+        if(desarrollo == "" && vendedor == ""){
+
+            $(location).attr('href', ruta+'?inicio='+inicio+'&final='+final);
+
+        }else if (desarrollo != "" && vendedor == "") {
+
+            $(location).attr('href', ruta+'?inicio='+inicio+'&final='+final+'&desarrollo='+desarrollo);
+            
+        }else if (desarrollo == "" && vendedor != "") {
+
+            $(location).attr('href', ruta+'?inicio='+inicio+'&final='+final+'&vendedor='+vendedor);
+
+        } else if (desarrollo != "" && vendedor != "") {
+
+            $(location).attr('href', ruta+'?inicio='+inicio+'&final='+final+'&desarrollo='+desarrollo+'&vendedor='+vendedor);
+
+        }
+
+
+
+
+
     });
 });
