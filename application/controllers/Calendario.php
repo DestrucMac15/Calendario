@@ -86,26 +86,31 @@ class Calendario extends CI_Controller{
 	}
 
 	public function save(){
-
+		$token = comprobarToken();
 		$data = array(
-			'fecha' => $this->input->post('fecha'),
-			'desarrollo' => $this->input->post('desarrollo'),
-			'vendedor' => $this->input->post('vendedor'),
-			'tipo' => $this->input->post('tipo'),
-			'observaciones' => $this->input->post('observaciones')
+			'Fecha' => $this->input->post('fecha'),
+			'Desarrollos' => $this->input->post('desarrollo'),
+			'Vendedores' => $this->input->post('vendedor'),
+			'Tipo' => $this->input->post('tipo'),
+			'Descripcion' => $this->input->post('observaciones')
 		);
 
-		if(empty($this->input->post('id'))){
-
-			//Código de Editar
-			$data['id'] = $this->input->post('id');
-
-		}else{
+		if(!empty($this->input->post('id'))){
+			//$data1['id'] = $this->input->post('id');
+			$json_upd = '{"data":['.json_encode($data).']}';
+			$encode_data = json_encode($json_upd);
 			
-			//Código de insertar
+			$calendario = $this->Calendar_model->upd_calendar($token,json_decode($encode_data),$this->input->post('id'))['data'][0];
+			var_dump($calendario);
+		}else{
+			$ower_id = array("Owner" => array("id" => $this->input->post('vendedor')));
+			$data_sent = array_merge($data,$ower_id);
 
+			$json_set = '{"data":['.json_encode($data_sent).']}';
+			$encode_data = json_encode($json_set);
+			$calendario = $this->Calendar_model->create_calendar($token,json_decode($encode_data))['data'][0];
+			var_dump($calendario);
 		}
-
 
 	}
 
