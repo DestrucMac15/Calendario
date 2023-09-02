@@ -1,28 +1,29 @@
 <div class="container-fluid my-5">
     <div class="row my-2">
         <div class="col-md-8">
-            <form id="form_filtro">
+            <form id="formFiltro">
                 <div class="form row">
                     <div class="col ">
-                        <select class="form-control">
-                            <option value="">Selecciona un Vendedor</option>
-                            <?php foreach($usuarios as $usuario){ ?>
-                                <option value="<?= $usuario['id']; ?>"><?= $usuario['full_name']; ?></option>
+                        <select class="form-control" id="filtro_desarrollo" name="filtro_desarrollo">
+                            <option value="">Todos los Desarrollos</option>
+                            <?php foreach($desarrollos as $desarrollo){ ?>
+                                <option <?= (isset($_GET['desarrollo']) && $_GET['desarrollo'] ==  $desarrollo['id']) ? 'selected' : ''; ?> value="<?= $desarrollo['id']; ?>"><?= $desarrollo['Name']; ?></option>
                             <?php } ?>
                         </select>
                     </div>
                     <div class="col ">
-                        <select class="form-control">
-                            <option value="">Selecciona un Desarrollo</option>
-                            <?php foreach($desarrollos as $desarrollo){ ?>
-                                <option value="<?= $desarrollo['id']; ?>"><?= $desarrollo['Name']; ?></option>
+                        <select class="form-control" id="filtro_vendedor" name="filtro_vendedor">
+                            <option value="">Todos los Vendedores</option>
+                            <?php foreach($usuarios as $usuario){ ?>
+                                <option <?= (isset($_GET['vendedor']) && $_GET['vendedor'] ==  $usuario['id']) ? 'selected' : ''; ?> value="<?= $usuario['id']; ?>"><?= $usuario['full_name']; ?></option>
                             <?php } ?>
                         </select>
                     </div>
                     <div class="col">
-                        <input type="text" name="daterange" class="form-control" value="" />
+                        <input type="text" id="daterange" name="daterange" class="form-control" value="<?= $inicio->format('Y/m/d'); ?> - <?= $final->format('Y/m/d'); ?>" />
                     </div>
                     <button type="submit" class="btn btn-success">Filtrar</button>
+                    <a href="<?= base_url(); ?>" class="btn btn-info mx-2">Resetear</a>
                 </div>
             </form>
         </div>
@@ -40,8 +41,8 @@
                 <thead>
                     <tr>
                         <th class="text-center">Días</th>
-                        <?php foreach($desarrollos as $desarrollo){ ?>
-                            <th><?= $desarrollo['Name']; ?></th>
+                        <?php foreach($desarrollos as $desarrollo2){ ?>
+                            <th class="text-center"><?= $desarrollo2['Name']; ?></th>
                         <?php } ?>
                     </tr>
                 </thead>
@@ -50,15 +51,42 @@
                         $inicio->subDay();
                         while($inicio->equalTo($final) == false){
                             $inicio->addDay();
-                    ?>
+                            ?>
                             <tr>
                                 <td class="text-center font-weight-bold">
                                     <?= $inicio->day; ?><br>
-                                    <span class="small weight-normal"><?= $inicio->locale('es_MX')->monthName; ?></span>
+                                    <span class="small weight-normal"><?= $inicio->locale('es_MX')->isoFormat('dddd'); ?></span>
                                 </td>
-                                <td>John</td>
-                                <td>Doe</td>
-                                <td>john@example.com</td>
+                                <?php foreach($desarrollos as $desarrollo){
+                                    ?>
+                                    <td class="text-center">
+                                        <?php
+                                            if(!is_null($calendario)){
+                                                
+                                                $fecha = $inicio->toDateString();
+                                                $respuesta = buscarValorEnArrayMultidimensional($calendario, $desarrollo['id'], $fecha);
+                                                if(is_null($respuesta)){ 
+                                        ?>
+                                                    <span class="badge badge-light btnAsignar" data-desarrollo="<?= $desarrollo['id']; ?>" data-fecha="<?= $inicio->toDateString(); ?>">Sin Asignar</span>
+                                        <?php
+                                                }else{
+                                        ?>
+                                                    <?= $calendario['data'][$respuesta]['Vendedores.first_name'].' '.$calendario['data'][$respuesta]['Vendedores.last_name']; ?>
+                                                    <br>
+                                                    <span class="small"><?= $calendario['data'][$respuesta]['Tipo']; ?></span>
+                                                    <br>
+                                                    [<a href="" class="small btnEditar" data-desarrollo="<?= $desarrollo['id']; ?>" data-fecha="<?= $fecha; ?>" data-vendedor="<?= $calendario['data'][$respuesta]['Vendedores']['id']; ?>" data-id="<?= $calendario['data'][$respuesta]['id']; ?>" data-tipo="<?= $calendario['data'][$respuesta]['Tipo']; ?>" data-observaciones="<?= $calendario['data'][$respuesta]['Descripcion']; ?>">Editar</a>]
+                                        <?php
+                                                }
+
+                                            }else{
+                                        ?>
+                                                <span class="badge badge-light btnAsignar" data-desarrollo="<?= $desarrollo['id']; ?>" data-fecha="<?= $inicio->toDateString(); ?>">Sin Asignar</span>
+                                        <?php
+                                            }
+                                        ?>
+                                    </td>
+                                <?php } ?>
                             </tr>
                     <?php 
                         }   
@@ -69,62 +97,4 @@
     </div>
 </div>
 
-
-<form action="">
-    <!-- The Modal -->
-    <div class="modal" id="modalAgregar">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Asociar</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="">Fecha</label>
-                        <input type="date" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Desarrollo</label>
-                        <select class="form-control">
-                            <option value="">Selecciona un Desarrollo</option>
-                            <?php foreach($desarrollos as $desarrollo){ ?>
-                                <option value="<?= $desarrollo['id']; ?>"><?= $desarrollo['Name']; ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="">Vendedor</label>
-                        <select name="" id="" class="form-control">
-                            <option value="">Selecciona un Vendedor</option>
-                            <?php foreach($usuarios as $usuario){ ?>
-                                <option value="<?= $usuario['id']; ?>"><?= $usuario['full_name']; ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="">Tipo</label>
-                        <select name="" id="" class="form-control">
-                            <option value="">Presencial</option>
-                            <option value="">Virtual</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="">Observaciones</label>
-                        <textarea class="form-control" id="" rows="4"></textarea>
-                    </div>
-                </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success" data-dismiss="modal">Agregar</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</form>
+<?php echo $this->template->widget("formCalendario"); ?>
