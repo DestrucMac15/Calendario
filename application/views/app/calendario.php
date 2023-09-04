@@ -37,7 +37,7 @@
             <h2 class="text-center my-5">
                 <?= $inicio->locale('es_MX')->isoFormat('LL').' a '.$final->locale('es_MX')->isoFormat('LL'); ?>
             </h2>
-             <table class="table table-striped ">
+             <table class="table table-striped <?= (count($desarrollos) > 10) ? 'table-responsive' : ''; ?>">
                 <thead>
                     <tr>
                         <th class="text-center">Días</th>

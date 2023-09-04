@@ -27,6 +27,8 @@ class Calendario extends CI_Controller{
 
 			$calendario = $this->Calendar_model->get_allCalendar($token,$inicio->format('Y-m-d'),$final->format('Y-m-d'));
 
+			$desarrollos = $this->Developments_model->all_dataDevelopments($token);
+
 		}
 		if(isset($_GET['final']) && isset($_GET['inicio']) && isset($_GET['desarrollo'])){
 
@@ -36,6 +38,8 @@ class Calendario extends CI_Controller{
 
 			$calendario = $this->Calendar_model->get_allCalendar($token,$inicio->format('Y-m-d'),$final->format('Y-m-d'), $desarrollo);
 
+			$desarrollos = $this->Developments_model->get_Development($token, $_GET['desarrollo']);
+
 		}
 		if(isset($_GET['final']) && isset($_GET['inicio']) && isset($_GET['vendedor'])){
 
@@ -44,6 +48,8 @@ class Calendario extends CI_Controller{
 			$vendedor = $_GET['vendedor'];
 
 			$calendario = $this->Calendar_model->get_allCalendar($token,$inicio->format('Y-m-d'),$final->format('Y-m-d'), $desarrollo="", $vendedor);
+
+			$desarrollos = $this->Developments_model->all_dataDevelopments($token);
 
 		}
 		if(isset($_GET['final']) && isset($_GET['inicio']) && isset($_GET['vendedor']) && isset($_GET['desarrollo'])){
@@ -55,6 +61,8 @@ class Calendario extends CI_Controller{
 
 			$calendario = $this->Calendar_model->get_allCalendar($token,$inicio->format('Y-m-d'),$final->format('Y-m-d'), $desarrollo, $vendedor);
 
+			$desarrollos = $this->Developments_model->get_Development($token, $_GET['desarrollo']);
+
 		}
 		if(!isset($_GET['final']) && !isset($_GET['inicio']) && !isset($_GET['vendedor']) && !isset($_GET['desarrollo'])){
 
@@ -65,10 +73,12 @@ class Calendario extends CI_Controller{
 			$final = new Carbon($finalc);
 
 			$calendario = $this->Calendar_model->get_allCalendar($token,$inicio->format('Y-m-d'),$final->format('Y-m-d'));
+			$desarrollos = $this->Developments_model->all_dataDevelopments($token);
 
 		}
 
-		$desarrollos = $this->Developments_model->all_dataDevelopment($token);
+
+
 		$usuarios = $this->Users_model->all_dataUsers($token);
 		
 		$data = array(
@@ -86,7 +96,9 @@ class Calendario extends CI_Controller{
 	}
 
 	public function save(){
+
 		$token = comprobarToken();
+
 		$data = array(
 			'Fecha' => $this->input->post('fecha'),
 			'Desarrollos' => $this->input->post('desarrollo'),
@@ -96,20 +108,32 @@ class Calendario extends CI_Controller{
 		);
 
 		if(!empty($this->input->post('id'))){
-			//$data1['id'] = $this->input->post('id');
+
 			$json_upd = '{"data":['.json_encode($data).']}';
 			$encode_data = json_encode($json_upd);
 			
-			$calendario = $this->Calendar_model->upd_calendar($token,json_decode($encode_data),$this->input->post('id'))['data'][0];
-			var_dump($calendario);
+			$respuesta = $this->Calendar_model->upd_calendar($token,json_decode($encode_data),$this->input->post('id'))['data'][0];
+
 		}else{
+
 			$ower_id = array("Owner" => array("id" => $this->input->post('vendedor')));
 			$data_sent = array_merge($data,$ower_id);
 
 			$json_set = '{"data":['.json_encode($data_sent).']}';
 			$encode_data = json_encode($json_set);
-			$calendario = $this->Calendar_model->create_calendar($token,json_decode($encode_data))['data'][0];
-			var_dump($calendario);
+			
+			$respuesta = $this->Calendar_model->create_calendar($token,json_decode($encode_data))['data'][0];
+
+		}
+
+		if($respuesta['status'] == 'success'){
+
+			echo json_encode(array('estatus' => true, 'mensaje' => 'Se ha guardado correctamente'));
+
+		}else{
+
+			echo json_encode(array('estatus' => false, 'mensaje' => 'Error en el campo: '.$respuesta['details']['api_name']));
+
 		}
 
 	}
