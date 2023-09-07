@@ -2,6 +2,7 @@
     class Calendar_model extends CI_Model{
 
         public function get_allCalendar($token,$start_date,$end_date,$desarrollo_id='',$vendedor_id=''){
+        
             $start_date = "\'".$start_date."\'";
             $end_date = "\'".$end_date."\'";
             
