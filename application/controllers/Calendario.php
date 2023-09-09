@@ -10,8 +10,6 @@ class Calendario extends CI_Controller{
 
 		$this->load->model(array('Developments_model','Users_model','Calendar_model', 'Potentials_model'));
 
-		
-
 	}
 
 	public function index(){
@@ -122,38 +120,55 @@ class Calendario extends CI_Controller{
 			$json_set = '{"data":['.json_encode($data_sent).']}';
 			$encode_data = json_encode($json_set);
 			
+			/** SECREA LA ASOCIACION EN EL MODULO DE 'Calendario' */
 			//$respuesta = $this->Calendar_model->create_calendar($token,json_decode($encode_data))['data'][0];
 
-			/** --------------- */
-			$potentials = $this->Potentials_model->get_potentials($token,$this->input->post('desarrollo'))['data'];
-			foreach($potentials as $potential){
+			/** ACTUALIZACION EN EL MODULO DE 'Oportunidades de ventas' EN BASE A LA FECHA Y EL DESARROLLO */
+			$potentials = $this->Potentials_model->get_potentials($token,$this->input->post('desarrollo'));
+
+			if($potentials != Null){
+				foreach($potentials['data'] as $potential){
 				
-				$Created_Time = $potential['Created_Time'];
-				$fecha_sin_t = preg_replace('/T.*/', '', $Created_Time);
-				if($data['Fecha'] == $fecha_sin_t){
-					$id = $potential['id'];
-				}else{
-					$id = "Error";
+					$Created_Time = $potential['Created_Time'];
+					$fecha_sin_t = preg_replace('/T.*/', '', $Created_Time);
+	
+					if($data['Fecha'] == $fecha_sin_t){
+						$id = $potential['id'];
+
+						$data = array('Owner' => $this->input->post('vendedor'));
+						$json_upd = '{"data":['.json_encode($data).']}';
+
+						$encode_data = json_encode($json_upd);
+						$respuesta = $this->Potentials_model->upd_potentials($token,json_decode($encode_data),$id)['data'][0];
+
+					}else{
+						$respuesta_text = "No se encontro el desarrollo en el modulo 'Oportunidades de venta' con la fecha".$this->input->post('fecha');
+
+					}
 				}
+			}else{
+				$respuesta_text = "No se encontro el desarrollo en el modulo 'Oportunidades de venta'";
+
 			}
 
-			$data = array('Owner' => $this->input->post('vendedor'));
-			$json_upd = '{"data":['.json_encode($data).']}';
-			$encode_data = json_encode($json_upd);
-			$respuesta = $this->Potentials_model->upd_potentials($token,json_decode($encode_data),$id)['data'];
-			var_dump($respuesta);
-			die();
 
 		}
 
-		if($respuesta['status'] == 'success'){
+		if(isset($respuesta_text)){
 
-			echo json_encode(array('estatus' => true, 'mensaje' => 'Se ha guardado correctamente'));
+			echo json_encode(array('estatus' => false, 'mensaje' => 'Error en el campo: '.$respuesta_text));
 
 		}else{
 
-			echo json_encode(array('estatus' => false, 'mensaje' => 'Error en el campo: '.$respuesta['details']['api_name']));
+			if($respuesta['status'] == 'success'){
 
+				echo json_encode(array('estatus' => true, 'mensaje' => 'Se ha guardado correctamente'));
+
+			}else{
+
+				echo json_encode(array('estatus' => false, 'mensaje' => 'Error en el campo: '.$respuesta['details']['api_name']));
+
+			}
 		}
 
 	}
