@@ -43,73 +43,85 @@
             <div class="d-flex justify-content-between my-2">
                 <?php 
                     //Nueva instancia para las flechas de semanas
-                    $iniciob = new Carbon($inicio);
-                    $finalb = new Carbon($final);; 
+                    $inicioFlechas = new Carbon($inicio);
+                    $finalFechas = new Carbon($final);
+
+                    $inicioHeader = new Carbon($inicio);
+                    $finalHeader = new Carbon($final);
                 ?>
-                <a href="<?= base_url(); ?>?inicio=<?= $iniciob->subWeek()->toDateString(); ?>&final=<?= $finalb->subWeek()->toDateString(); ?>" type="button" class="btn btn-secondary"><i class="fas fa-chevron-left"></i></a>
-                <a href="<?= base_url(); ?>?inicio=<?= $iniciob->addWeeks(2)->toDateString(); ?>&final=<?= $finalb->addWeeks(2)->toDateString(); ?>" type="button" class="btn btn-secondary"><i class="fas fa-chevron-right"></i></a>
+                <a href="<?= base_url(); ?>?inicio=<?= $inicioFlechas->subWeek()->toDateString(); ?>&final=<?= $finalFechas->subWeek()->toDateString(); ?>" type="button" class="btn btn-secondary"><i class="fas fa-chevron-left"></i></a>
+                <a href="<?= base_url(); ?>?inicio=<?= $inicioFlechas->addWeeks(2)->toDateString(); ?>&final=<?= $finalFechas->addWeeks(2)->toDateString(); ?>" type="button" class="btn btn-secondary"><i class="fas fa-chevron-right"></i></a>
             </div>
              <table class="table table-striped <?= (count($desarrollos) > 10) ? 'table-responsive' : ''; ?>">
                 <thead>
                     <tr>
-                        <th class="text-center">Días</th>
-                        <?php foreach($desarrollos as $desarrollo2){ ?>
-                            <th class="text-center"><?= $desarrollo2['Name']; ?></th>
+                        <th class="text-center">Desarrollos</th>
+                        <?php 
+                            $inicioHeader->subDay();
+                            while($inicioHeader->equalTo($finalHeader) == false){
+                            $inicioHeader->addDay();
+                        ?>
+                            <th class="text-center font-weight-bold">
+                                <?= $inicioHeader->day; ?><br>
+                                <span class="small weight-normal"><?= $inicioHeader->locale('es_MX')->isoFormat('dddd'); ?></span>
+                            </th>
                         <?php } ?>
                     </tr>
                 </thead>
                 <tbody>
                     <?php 
-                        $inicio->subDay();
-                        while($inicio->equalTo($final) == false){
-                            $inicio->addDay();
+                        foreach($desarrollos as $desarrollo){ 
+                        $semana = new Carbon();
+                        $inicioBody = new Carbon($inicio);
+                        $finalBody = new Carbon($final);
+                    ?>
+                        <tr>
+                            <td class="text-center font-weight-bold"><?= $desarrollo['Name']; ?></td>
+                            <?php 
+                                $inicioBody->subDay();
+                                while($inicioBody->equalTo($finalBody) == false){
+                                $inicioBody->addDay();
                             ?>
-                            <tr>
-                                <td class="text-center font-weight-bold">
-                                    <?= $inicio->day; ?><br>
-                                    <span class="small weight-normal"><?= $inicio->locale('es_MX')->isoFormat('dddd'); ?></span>
-                                </td>
-                                <?php foreach($desarrollos as $desarrollo){
-                                    $semana = new Carbon();
+                                <td class="text-center">
+                                    
+                                    <?php
+                                        if(!is_null($calendario)){
+                                            
+                                            $fecha = $inicioBody->toDateString();
+                                            $respuesta = buscarValorEnArrayMultidimensional($calendario, $desarrollo['id'], $fecha);
+                                            if(is_null($respuesta)){ 
                                     ?>
-                                    <td class="text-center">
-                                        <?php
-                                            if(!is_null($calendario)){
-                                                
-                                                $fecha = $inicio->toDateString();
-                                                $respuesta = buscarValorEnArrayMultidimensional($calendario, $desarrollo['id'], $fecha);
-                                                if(is_null($respuesta)){ 
-                                        ?>
-                                                    <span class="badge badge-light <?= ($inicio->week() >= $semana->week()) ? 'btnAsignar' : ''; ?>" data-desarrollo="<?= $desarrollo['id']; ?>" data-fecha="<?= $inicio->toDateString(); ?>">Sin Asignar</span>
-                                        <?php
-                                                }else{
-                                        ?>
-                                                    <?= $calendario['data'][$respuesta]['Vendedores.first_name'].' '.$calendario['data'][$respuesta]['Vendedores.last_name']; ?>
-                                                    <br>
-                                                    <span class="small"><?= $calendario['data'][$respuesta]['Tipo']; ?></span>
-                                                    <br>
-                                                    <?php 
-                                                        
-                                                        if($inicio->week() >= $semana->week()){
-                                                    ?>
-                                                    [<a href="" class="small btnEditar" data-desarrollo="<?= $desarrollo['id']; ?>" data-fecha="<?= $fecha; ?>" data-vendedor="<?= $calendario['data'][$respuesta]['Vendedores']['id']; ?>" data-id="<?= $calendario['data'][$respuesta]['id']; ?>" data-tipo="<?= $calendario['data'][$respuesta]['Tipo']; ?>" data-observaciones="<?= $calendario['data'][$respuesta]['Descripcion']; ?>">Editar</a>]
-                                                    <?php 
-                                                        }
-                                                    ?>
-                                        <?php
-                                                }
-
+                                                <span class="badge badge-light <?= ($inicioBody->week() >= $semana->week()) ? 'btnAsignar' : ''; ?>" data-desarrollo="<?= $desarrollo['id']; ?>" data-fecha="<?= $inicioBody->toDateString(); ?>">Sin Asignar</span>
+                                    <?php
                                             }else{
-                                        ?>  
-                                                <span class="badge badge-light <?= ($inicio->week() >= $semana->week()) ? 'btnAsignar' : 'no'; ?>" data-desarrollo="<?= $desarrollo['id']; ?>" data-fecha="<?= $inicio->toDateString(); ?>">Sin Asignar</span>
-                                        <?php
+                                    ?>
+                                                <?= $calendario['data'][$respuesta]['Vendedores.first_name'].' '.$calendario['data'][$respuesta]['Vendedores.last_name']; ?>
+                                                <br>
+                                                <span class="small"><?= $calendario['data'][$respuesta]['Tipo']; ?></span>
+                                                <br>
+                                                <?php 
+                                                    
+                                                    if($inicioBody->week() >= $semana->week()){
+                                                ?>
+                                                [<a href="" class="small btnEditar" data-desarrollo="<?= $desarrollo['id']; ?>" data-fecha="<?= $fecha; ?>" data-vendedor="<?= $calendario['data'][$respuesta]['Vendedores']['id']; ?>" data-id="<?= $calendario['data'][$respuesta]['id']; ?>" data-tipo="<?= $calendario['data'][$respuesta]['Tipo']; ?>" data-observaciones="<?= $calendario['data'][$respuesta]['Descripcion']; ?>">Editar</a>]
+                                                <?php 
+                                                    }
+                                                ?>
+                                    <?php
                                             }
-                                        ?>
-                                    </td>
-                                <?php } ?>
-                            </tr>
+
+                                        }else{
+                                    ?>  
+                                            <span class="badge badge-light <?= ($inicioBody->week() >= $semana->week()) ? 'btnAsignar' : 'no'; ?>" data-desarrollo="<?= $desarrollo['id']; ?>" data-fecha="<?= $inicioBody->toDateString(); ?>">Sin Asignar</span>
+                                    <?php
+                                        }
+                                    ?>
+                                   
+                                </td>
+                            <?php } ?>
+                        </tr>
                     <?php 
-                        }   
+                        } 
                     ?>
                 </tbody>
             </table>

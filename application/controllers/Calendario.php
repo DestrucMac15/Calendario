@@ -1,5 +1,6 @@
 <?php 
 use Carbon\Carbon; 
+
 class Calendario extends CI_Controller{
 
     public function __construct(){
@@ -9,8 +10,6 @@ class Calendario extends CI_Controller{
 		$this->load->helper(array('zoho_refresh/refresh_token','calendario/calendario'));
 
 		$this->load->model(array('Developments_model','Users_model','Calendar_model'));
-
-		
 
 	}
 
@@ -76,9 +75,7 @@ class Calendario extends CI_Controller{
 			$desarrollos = $this->Developments_model->all_dataDevelopments($token);
 
 		}
-
-
-
+		
 		$usuarios = $this->Users_model->all_dataUsers($token);
 		
 		$data = array(

@@ -91,7 +91,7 @@ $(document).ready(function(){
         }).always(function(){
 
             boton.prop('disabled',false);
-            boton.text('Guardando..');
+            boton.text('Enviar');
 
         });
 
