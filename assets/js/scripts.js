@@ -2,16 +2,6 @@ $(document).ready(function(){
 
     const ruta = $('body').data('ruta');
 
-    $('.btnAgregar').click(function(event){
-
-        event.preventDefault();
-
-        $('#formCalendario')[0].reset();
-
-        $('#modalAgregar').modal('show');
-
-    });
-
     $('.btnAsignar').click(function(event){
 
         event.preventDefault();
