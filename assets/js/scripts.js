@@ -2,6 +2,14 @@ $(document).ready(function(){
 
     const ruta = $('body').data('ruta');
 
+    $('.btnExportar').click(function(){
+
+        let search = window.location.search;
+
+        window.open(ruta+'calendario/exportar/'+search, "_blank");
+
+    });
+
     $('.btnAsignar').click(function(event){
 
         event.preventDefault();
