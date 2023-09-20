@@ -48,8 +48,8 @@
                     $inicioHeader = new Carbon($inicio);
                     $finalHeader = new Carbon($final);
                 ?>
-                <a href="<?= base_url(); ?>?inicio=<?= $inicioFlechas->subWeek()->toDateString(); ?>&final=<?= $finalFechas->subWeek()->toDateString(); ?>" type="button" class="btn btn-secondary"><i class="fas fa-chevron-left"></i></a>
-                <a href="<?= base_url(); ?>?inicio=<?= $inicioFlechas->addWeeks(2)->toDateString(); ?>&final=<?= $finalFechas->addWeeks(2)->toDateString(); ?>" type="button" class="btn btn-secondary"><i class="fas fa-chevron-right"></i></a>
+                <a href="<?= base_url(); ?>?inicio=<?= $inicioFlechas->subWeek()->toDateString(); ?>&final=<?= $finalFechas->subWeek()->toDateString(); ?>" type="button" class="btn btn-dark"><i class="fas fa-chevron-left"></i></a>
+                <a href="<?= base_url(); ?>?inicio=<?= $inicioFlechas->addWeeks(2)->toDateString(); ?>&final=<?= $finalFechas->addWeeks(2)->toDateString(); ?>" type="button" class="btn btn-dark"><i class="fas fa-chevron-right"></i></a>
             </div>
             <div class="table-responsive">
                 <table class="table table-striped">
@@ -130,4 +130,4 @@
     </div>
 </div>
 
-<?php echo $this->template->widget("formCalendario"); ?>
+<?php echo $this->template->partial->widget('form'); ?>
