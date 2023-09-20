@@ -1,39 +1,9 @@
 <?php 
+    header("Content-Type: application/vnd.ms-excel");
+    header("Content-Disposition: attachment; filename=Calendario.xls");
     use Carbon\Carbon; 
 ?>
 <div class="container-fluid my-5">
-    <div class="row my-2">
-        <div class="col-md-8">
-            <form id="formFiltro">
-                <div class="form row">
-                    <div class="col">
-                        <select class="form-control" id="filtro_desarrollo" name="filtro_desarrollo">
-                            <option value="">Todos los Desarrollos</option>
-                            <?php foreach($desarrollos as $desarrollo){ ?>
-                                <option <?= (isset($_GET['desarrollo']) && $_GET['desarrollo'] ==  $desarrollo['id']) ? 'selected' : ''; ?> value="<?= $desarrollo['id']; ?>"><?= $desarrollo['Name']; ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
-                    <div class="col">
-                        <select class="form-control" id="filtro_vendedor" name="filtro_vendedor">
-                            <option value="">Todos los Vendedores</option>
-                            <?php foreach($usuarios as $usuario){ ?>
-                                <option <?= (isset($_GET['vendedor']) && $_GET['vendedor'] ==  $usuario['id']) ? 'selected' : ''; ?> value="<?= $usuario['id']; ?>"><?= $usuario['full_name']; ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
-                    <div class="col">
-                        <input type="text" id="daterange" name="daterange" class="form-control" value="<?= $inicio->format('Y/m/d'); ?> - <?= $final->format('Y/m/d'); ?>" />
-                    </div>
-                    <button type="submit" class="btn btn-success"><i class="fas fa-search"></i></button>
-                    <a href="<?= base_url(); ?>" class="btn btn-info mx-2"><i class="fas fa-sync-alt"></i></a>
-                </div>
-            </form>
-        </div>
-        <div class="col-md-4 text-right">
-            <button class="btn btn-success mx-2 btnExportar"><i class="far fa-file-excel"></i> Exportar</button>
-        </div>
-    </div>
     <div class="row my-2">
         <div class="col-md-12 text-center">
             <h4 class="text-center my-5">
@@ -48,8 +18,8 @@
                     $inicioHeader = new Carbon($inicio);
                     $finalHeader = new Carbon($final);
                 ?>
-                <a href="<?= base_url(); ?>?inicio=<?= $inicioFlechas->subWeek()->toDateString(); ?>&final=<?= $finalFechas->subWeek()->toDateString(); ?>" type="button" class="btn btn-dark"><i class="fas fa-chevron-left"></i></a>
-                <a href="<?= base_url(); ?>?inicio=<?= $inicioFlechas->addWeeks(2)->toDateString(); ?>&final=<?= $finalFechas->addWeeks(2)->toDateString(); ?>" type="button" class="btn btn-dark"><i class="fas fa-chevron-right"></i></a>
+                <a href="<?= base_url(); ?>?inicio=<?= $inicioFlechas->subWeek()->toDateString(); ?>&final=<?= $finalFechas->subWeek()->toDateString(); ?>" type="button" class="btn btn-secondary"><i class="fas fa-chevron-left"></i></a>
+                <a href="<?= base_url(); ?>?inicio=<?= $inicioFlechas->addWeeks(2)->toDateString(); ?>&final=<?= $finalFechas->addWeeks(2)->toDateString(); ?>" type="button" class="btn btn-secondary"><i class="fas fa-chevron-right"></i></a>
             </div>
             <div class="table-responsive">
                 <table class="table table-striped">
@@ -129,5 +99,3 @@
         </div>
     </div>
 </div>
-
-<?php echo $this->template->partial->widget('form'); ?>

@@ -1,5 +1,6 @@
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "access_token": "1000.bc77103ce800096f6682f04d4831eb01.0b8ceaf36fbd79a999d28123d1ba4648",
     "api_domain": "https:\/\/www.zohoapis.com",
     "token_type": "Bearer",
@@ -12,4 +13,11 @@
     "expires_in": 3600,
     "created_at": 1693611449
 >>>>>>> e9c2f8ab4585ef3501102928453cdc3976752d0a
+=======
+    "access_token": "1000.7f4df8c1a0cfd97c366ffe56a8d5c7f3.8b27c23ae77b9452b64bd9a5956b7ea9",
+    "api_domain": "https:\/\/www.zohoapis.com",
+    "token_type": "Bearer",
+    "expires_in": 3600,
+    "created_at": 1695247259
+>>>>>>> Marco
 }

@@ -2,13 +2,11 @@ $(document).ready(function(){
 
     const ruta = $('body').data('ruta');
 
-    $('.btnAgregar').click(function(event){
+    $('.btnExportar').click(function(){
 
-        event.preventDefault();
+        let search = window.location.search;
 
-        $('#formCalendario')[0].reset();
-
-        $('#modalAgregar').modal('show');
+        window.open(ruta+'calendario/exportar/'+search, "_blank");
 
     });
 
@@ -47,6 +45,9 @@ $(document).ready(function(){
         event.preventDefault();
 
         let data = $(this).serialize();
+        let boton = $(this).find(':submit');
+        boton.prop('disabled',true);
+        boton.text('Guardando..');
 
         $.ajax({
             url: ruta+'calendario/save',
@@ -57,14 +58,38 @@ $(document).ready(function(){
 
             if(respuesta.estatus){
 
+                iziToast.success({
+                    timeout: 3000,
+                    overlay: true,
+                    displayMode: 'once',
+                    id: 'inputs',
+                    zindex: 999,
+                    title: 'Correcto!',
+                    message: respuesta.mensaje,
+                    position: 'topRight',
+                    drag: false
+                });
+
+                setInterval(function(){
+
+                    location.reload();
+                    
+                },1500);
+
             }else{
 
                 iziToast.error({
-                    title: 'Atención!',
-                    message: 'Error al guardar.',
+                    title: 'Alerta!',
+                    message: respuesta.mensaje,
+                    position: 'topRight',
                 });
 
             }
+
+        }).always(function(){
+
+            boton.prop('disabled',false);
+            boton.text('Enviar');
 
         });
 
