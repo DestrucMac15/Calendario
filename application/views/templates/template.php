@@ -6,12 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rol de Guardias</title>
 
-    <meta name="keywords" content="Jada Demoliciones, demoledores, sustentables, excavaciones, desmantelamientos, arquitectura, demoliciones">
-    <meta name="descripcion" content="Somos una empresa con 70 años de experiencia especializada en la regeneración de espacios urbanos.">
+    <meta name="descripcion" content="Calendario de roles de guardia para los usuarios de M&M.">
 
-    <meta property="og:title" content="Jada Demoliciones">
+    <meta property="og:title" content="Rol de Guardias">
     <meta property="og:url" content="<?php echo base_url(); ?>">
-    <meta property="og:description" content="Somos una empresa con 70 años de experiencia especializada en la regeneración de espacios urbanos." />
+    <meta property="og:description" content="Calendario de roles de guardia para los usuarios de M&M." />
     <meta property="og:image" content="<?php echo base_url(); ?>assets/images/logo.png">
     <meta property="og:locale:alternate" content="es_MX">
 
