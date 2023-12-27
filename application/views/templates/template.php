@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vocom</title>
+    <title>Rol de Guardias</title>
 
     <meta name="keywords" content="Jada Demoliciones, demoledores, sustentables, excavaciones, desmantelamientos, arquitectura, demoliciones">
     <meta name="descripcion" content="Somos una empresa con 70 años de experiencia especializada en la regeneración de espacios urbanos.">

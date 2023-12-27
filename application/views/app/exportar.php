@@ -61,7 +61,7 @@
                                                $respuesta = buscarValorEnArrayMultidimensional($calendario, $desarrollo['id'], $fecha);
                                                if(is_null($respuesta)){ 
                                        ?>
-                                                   <span class="badge badge-light <?= ($inicioBody->week() >= $semana->week()) ? 'btnAsignar' : ''; ?>" data-desarrollo="<?= $desarrollo['id']; ?>" data-fecha="<?= $inicioBody->toDateString(); ?>">Sin Asignar</span>
+                                                   <span class="badge badge-light <?= ($inicioBody->isoWeek() >= $finalBody->isoWeek()) ? 'btnAsignar' : ''; ?>" data-desarrollo="<?= $desarrollo['id']; ?>" data-fecha="<?= $inicioBody->toDateString(); ?>">Sin Asignar</span>
                                        <?php
                                                }else{
                                        ?>
@@ -71,9 +71,8 @@
                                                    <br>
                                                    <?php 
                                                        
-                                                       if($inicioBody->week() >= $semana->week()){
+                                                       if($inicioBody->isoWeek() >= $finalBody->isoWeek()){
                                                    ?>
-                                                   [<a href="" class="small btnEditar" data-desarrollo="<?= $desarrollo['id']; ?>" data-fecha="<?= $fecha; ?>" data-vendedor="<?= $calendario['data'][$respuesta]['Vendedores']['id']; ?>" data-id="<?= $calendario['data'][$respuesta]['id']; ?>" data-tipo="<?= $calendario['data'][$respuesta]['Tipo']; ?>" data-observaciones="<?= $calendario['data'][$respuesta]['Descripcion']; ?>">Editar</a>]
                                                    <?php 
                                                        }
                                                    ?>
@@ -82,7 +81,7 @@
    
                                            }else{
                                        ?>  
-                                               <span class="badge badge-light <?= ($inicioBody->week() >= $semana->week()) ? 'btnAsignar' : 'no'; ?>" data-desarrollo="<?= $desarrollo['id']; ?>" data-fecha="<?= $inicioBody->toDateString(); ?>">Sin Asignar</span>
+                                               <span class="badge badge-light <?= ($inicioBody->isoWeek() >= $finalBody->isoWeek()) ? 'btnAsignar' : 'no'; ?>" data-desarrollo="<?= $desarrollo['id']; ?>" data-fecha="<?= $inicioBody->toDateString(); ?>">Sin Asignar</span>
                                        <?php
                                            }
                                        ?>

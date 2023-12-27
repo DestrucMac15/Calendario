@@ -70,9 +70,9 @@ $(document).ready(function(){
                     drag: false
                 });
 
-                setInterval(function(){
+                setTimeout(function(){
 
-                    location.reload();
+                    window.location.reload();
                     
                 },1500);
 

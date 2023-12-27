@@ -1,5 +1,5 @@
 <?php 
-    use Carbon\Carbon; 
+    use Carbon\Carbon;
 ?>
 <div class="container-fluid my-5">
     <div class="row my-2">
@@ -48,8 +48,8 @@
                     $inicioHeader = new Carbon($inicio);
                     $finalHeader = new Carbon($final);
                 ?>
-                <a href="<?= base_url(); ?>?inicio=<?= $inicioFlechas->subWeek()->toDateString(); ?>&final=<?= $finalFechas->subWeek()->toDateString(); ?>" type="button" class="btn btn-secondary"><i class="fas fa-chevron-left"></i></a>
-                <a href="<?= base_url(); ?>?inicio=<?= $inicioFlechas->addWeeks(2)->toDateString(); ?>&final=<?= $finalFechas->addWeeks(2)->toDateString(); ?>" type="button" class="btn btn-secondary"><i class="fas fa-chevron-right"></i></a>
+                <a href="<?= base_url(); ?>?inicio=<?= $inicioFlechas->subWeek()->toDateString(); ?>&final=<?= $finalFechas->subWeek()->toDateString(); ?>" type="button" class="btn btn-dark"><i class="fas fa-chevron-left"></i></a>
+                <a href="<?= base_url(); ?>?inicio=<?= $inicioFlechas->addWeeks(2)->toDateString(); ?>&final=<?= $finalFechas->addWeeks(2)->toDateString(); ?>" type="button" class="btn btn-dark"><i class="fas fa-chevron-right"></i></a>
             </div>
             <div class="table-responsive">
                 <table class="table table-striped">
@@ -85,13 +85,15 @@
                                    <td class="text-center">
                                        
                                        <?php
+                                            //echo "inicioBody".$inicioBody->isoWeek()."<br/>";
+                                            //echo "semana".$finalBody->isoWeek()."<br/>";//SE QUITO LA $semana
                                            if(!is_null($calendario)){
                                                
                                                $fecha = $inicioBody->toDateString();
                                                $respuesta = buscarValorEnArrayMultidimensional($calendario, $desarrollo['id'], $fecha);
                                                if(is_null($respuesta)){ 
                                        ?>
-                                                   <span class="badge badge-light <?= ($inicioBody->week() >= $semana->week()) ? 'btnAsignar' : ''; ?>" data-desarrollo="<?= $desarrollo['id']; ?>" data-fecha="<?= $inicioBody->toDateString(); ?>">Sin Asignar</span>
+                                                   <span class="badge badge-light <?= ($inicioBody->isoWeek() >= $finalBody->isoWeek()) ? 'btnAsignar' : ''; ?>" data-desarrollo="<?= $desarrollo['id']; ?>" data-fecha="<?= $inicioBody->toDateString(); ?>">Sin Asignar</span>
                                        <?php
                                                }else{
                                        ?>
@@ -101,9 +103,9 @@
                                                    <br>
                                                    <?php 
                                                        
-                                                       if($inicioBody->week() >= $semana->week()){
+                                                       if($inicioBody->isoWeek() >= $semana->isoWeek()){
                                                    ?>
-                                                   [<a href="" class="small btnEditar" data-desarrollo="<?= $desarrollo['id']; ?>" data-fecha="<?= $fecha; ?>" data-vendedor="<?= $calendario['data'][$respuesta]['Vendedores']['id']; ?>" data-id="<?= $calendario['data'][$respuesta]['id']; ?>" data-tipo="<?= $calendario['data'][$respuesta]['Tipo']; ?>" data-observaciones="<?= $calendario['data'][$respuesta]['Descripcion']; ?>">Editar</a>]
+                                                   [<a href="" class="small btnEditar" data-desarrollo="<?= $desarrollo['id']; ?>" data-fecha="<?= $fecha; ?>" data-vendedor="<?= empty($calendario['data'][$respuesta]['Vendedores']['id']) ? '' : $calendario['data'][$respuesta]['Vendedores']['id']; ?>" data-id="<?= $calendario['data'][$respuesta]['id']; ?>" data-tipo="<?= $calendario['data'][$respuesta]['Tipo']; ?>" data-observaciones="<?= empty($calendario['data'][$respuesta]['Descripcion']) ? '': $calendario['data'][$respuesta]['Descripcion']; ?>">Editar</a>]
                                                    <?php 
                                                        }
                                                    ?>
@@ -112,7 +114,7 @@
    
                                            }else{
                                        ?>  
-                                               <span class="badge badge-light <?= ($inicioBody->week() >= $semana->week()) ? 'btnAsignar' : 'no'; ?>" data-desarrollo="<?= $desarrollo['id']; ?>" data-fecha="<?= $inicioBody->toDateString(); ?>">Sin Asignar</span>
+                                               <span class="badge badge-light <?= ($inicioBody->isoWeek() >= $finalBody->isoWeek()) ? 'btnAsignar' : 'no'; ?>" data-desarrollo="<?= $desarrollo['id']; ?>" data-fecha="<?= $inicioBody->toDateString(); ?>">Sin Asignar</span>
                                        <?php
                                            }
                                        ?>
@@ -130,4 +132,4 @@
     </div>
 </div>
 
-<?php echo $this->template->widget("formCalendario"); ?>
+<?php echo $this->template->partial->widget('form'); ?>
